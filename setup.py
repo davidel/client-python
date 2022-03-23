@@ -2,13 +2,7 @@
 
 from setuptools import setup, find_packages
 
-import os
-import sys
-
-version = os.getenv("VERSION")
-if not version:
-    print("no version supplied")
-    sys.exit(1)
+VERSION = "0.3"
 
 def get_readme_md_contents():
     """read the contents of your README file"""
@@ -18,7 +12,7 @@ def get_readme_md_contents():
 
 setup(
     name="polygon-api-client",
-    version=version,
+    version=VERSION,
     description="Polygon API client",
     long_description=get_readme_md_contents(),
     long_description_content_type="text/markdown",
