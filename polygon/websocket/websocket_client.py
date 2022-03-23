@@ -53,6 +53,7 @@ class WebSocketClient:
         self.ws.close()
         if self._run_thread:
             self._run_thread.join()
+        self._authenticated.clear()
 
     def subscribe(self, *params):
         # TODO: make this a decorator or context manager
