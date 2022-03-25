@@ -35,11 +35,11 @@ class WebSocketClient:
         # self._run_thread is only set if the client is run asynchronously
         self._run_thread: Optional[threading.Thread] = None
 
-    def run(self):
-        self.ws.run_forever()
+    def run(self, **kwargs):
+        self.ws.run_forever(**kwargs)
 
-    def run_async(self):
-        self._run_thread = threading.Thread(target=self.run)
+    def run_async(self, **kwargs):
+        self._run_thread = threading.Thread(target=self.run, kwargs=kwargs)
         self._run_thread.start()
 
     def close_connection(self):
