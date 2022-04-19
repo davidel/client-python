@@ -21,14 +21,10 @@ class WebSocketClient:
         self._host = self.DEFAULT_HOST
         self.url = f"wss://{self._host}/{cluster}"
         self.ws: websocket.WebSocketApp = websocket.WebSocketApp(self.url, on_open=self._default_on_open(),
-                                                                 on_close=self._default_on_close,
-                                                                 on_error=self._default_on_error,
-                                                                 on_message=self._default_on_message())
+                                                                 on_close=on_close,
+                                                                 on_error=on_error,
+                                                                 on_message=process_message)
         self.auth_key = auth_key
-
-        self.process_message = process_message
-        self.ws.on_close = on_close
-        self.ws.on_error = on_error
 
         # being authenticated is an event that must occur before any other action is sent to the server
         self._authenticated = threading.Event()
@@ -70,33 +66,8 @@ class WebSocketClient:
     def _format_params(params):
         return ",".join(params)
 
-    @property
-    def process_message(self):
-        return self.__process_message
-
-    @process_message.setter
-    def process_message(self, pm):
-        if pm:
-            self.__process_message = pm
-            self.ws.on_message = lambda ws, message: self.__process_message(message)
-
-    def _default_on_message(self):
-        return lambda ws, message: self._default_process_message(message)
-
-    @staticmethod
-    def _default_process_message(message):
-        print(message)
-
     def _default_on_open(self):
         def f(ws):
             self._authenticate(ws)
 
         return f
-
-    @staticmethod
-    def _default_on_error(ws, error):
-        print("error:", error)
-
-    @staticmethod
-    def _default_on_close(ws):
-        print("### closed ###")
