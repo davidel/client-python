@@ -20,14 +20,15 @@ class WebSocketClient:
                  on_error: Optional[Callable[[websocket.WebSocketApp, str], None]] = None):
         self._host = self.DEFAULT_HOST
         self.url = f"wss://{self._host}/{cluster}"
+        self.auth_key = auth_key
+        # being authenticated is an event that must occur before any other action is sent to the server
+        self._authenticated = threading.Event()
+
         self.ws: websocket.WebSocketApp = websocket.WebSocketApp(self.url, on_open=self._default_on_open(),
                                                                  on_close=on_close,
                                                                  on_error=on_error,
                                                                  on_message=process_message)
-        self.auth_key = auth_key
 
-        # being authenticated is an event that must occur before any other action is sent to the server
-        self._authenticated = threading.Event()
         # self._run_thread is only set if the client is run asynchronously
         self._run_thread: Optional[threading.Thread] = None
 
