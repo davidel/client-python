@@ -5,7 +5,7 @@ import time
 from polygon import WebSocketClient, STOCKS_CLUSTER
 
 
-def my_custom_process_message(message):
+def my_custom_process_message(ws, message):
     print("this is my custom message processing", message)
 
 
