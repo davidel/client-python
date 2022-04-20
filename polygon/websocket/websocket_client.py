@@ -25,7 +25,8 @@ class WebSocketClient:
         # being authenticated is an event that must occur before any other action is sent to the server
         self._authenticated = threading.Event()
 
-        self.ws: websocket.WebSocketApp = websocket.WebSocketApp(self.url, on_open=self._default_on_open(),
+        self.ws: websocket.WebSocketApp = websocket.WebSocketApp(self.url,
+                                                                 on_open=self._default_on_open(),
                                                                  on_close=on_close,
                                                                  on_error=on_error,
                                                                  on_message=process_message)
