@@ -2,7 +2,7 @@
 
 from setuptools import setup, find_packages
 
-VERSION = "0.3"
+VERSION = "0.4"
 
 def get_readme_md_contents():
     """read the contents of your README file"""
