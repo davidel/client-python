@@ -13,11 +13,11 @@ def _format_params(params):
 
 
 class WebSocketClient:
-    def __init__(self, cluster: str, auth_key: str, service: str = 'socket',
+    def __init__(self, cluster: str, auth_key: str, service: str = None,
                  process_message: Optional[Callable[[websocket.WebSocketApp, str], None]] = None,
                  on_close: Optional[Callable[[websocket.WebSocketApp], None]] = None,
                  on_error: Optional[Callable[[websocket.WebSocketApp, str], None]] = None):
-        self.url = f'wss://{service}.polygon.io/{cluster}'
+        self.url = f'wss://{service or "socket"}.polygon.io/{cluster}'
         self.auth_key = auth_key
 
         self.ws: websocket.WebSocketApp = websocket.WebSocketApp(self.url,
