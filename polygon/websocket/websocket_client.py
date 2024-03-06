@@ -13,17 +13,11 @@ def _format_params(params):
 
 
 class WebSocketClient:
-    DEFAULT_HOST = 'socket.polygon.io'
-
-    # TODO: Either an instance of the client couples 1:1 with the cluster or an instance of the Client couples 1:3 with
-    #  the 3 possible clusters (I think I like client per, but then a problem is the user can make multiple clients for
-    #  the same cluster and that's not desirable behavior,
-    #  somehow keeping track with multiple Client instances will be the difficulty)
-    def __init__(self, cluster: str, auth_key: str,
+    def __init__(self, cluster: str, auth_key: str, service: str = 'socket',
                  process_message: Optional[Callable[[websocket.WebSocketApp, str], None]] = None,
                  on_close: Optional[Callable[[websocket.WebSocketApp], None]] = None,
                  on_error: Optional[Callable[[websocket.WebSocketApp, str], None]] = None):
-        self.url = f'wss://{self.DEFAULT_HOST}/{cluster}'
+        self.url = f'wss://{service}.polygon.io/{cluster}'
         self.auth_key = auth_key
 
         self.ws: websocket.WebSocketApp = websocket.WebSocketApp(self.url,
